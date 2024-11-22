@@ -21,6 +21,22 @@
         p {
             color: #555;
         }
+        form {
+            margin-top: 20px;
+        }
+        input {
+            padding: 8px;
+            margin: 5px;
+            width: 80%;
+            max-width: 300px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #202b3c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -31,6 +47,51 @@
         <p>Sheridan College</p>
         <p>Honors Bachelor of Computer Science (Mobile Computing)</p>
         <p>Course: SYST31472 - Cloud Infrastructure</p>
+
+       
+        <form id="dataForm">
+            <input type="text" id="firstName" placeholder="First Name" required />
+            <input type="text" id="lastName" placeholder="Last Name" required />
+            <input type="text" id="phoneNumber" placeholder="Phone Number" required />
+            <button type="button" onclick="submitData()">Submit</button>
+        </form>
     </div>
+
+    <script>
+       
+        async function submitData() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+
+         
+            const apiUrl = "https://1uem9z1u6f.execute-api.us-east-1.amazonaws.com/lab8-stage"; 
+
+            
+            const data = {
+                firstname: firstName,
+                lastname: lastName,
+                phone_number: phoneNumber
+            };
+
+            try {
+               
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+              
+                const result = await response.json();
+                alert("Response from API: " + result.message);
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Error sending data to API.");
+            }
+        }
+    </script>
 </body>
 </html>
